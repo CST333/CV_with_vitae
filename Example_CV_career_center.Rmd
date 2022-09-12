@@ -1,0 +1,121 @@
+---
+name: Aline 
+surname: Keller
+position: "Master of Arts Geschichte"
+address: "Berghofstrasse 15 - 8006 Zürich"
+phone: 076/345 66 77
+#www: mariecurie.com
+email: "aline.keller@uzh.ch"
+#twitter: mariecurie
+#github: mariecurie
+#linkedin: mariecurie
+profilepic: "img/Aline.png"
+#aboutme: "Highlight Satz. /Statementsatz."
+date: "`r format(Sys.time(), '%B %Y')`"
+output: 
+  vitae::awesomecv:
+    page_total: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# install.packages("readxl", "here", "vitae", "glue") uncomment this if you need to install the packages
+
+library(vitae)
+library(readxl)
+#library(flextable)
+library(kableExtra)
+
+```
+
+
+```{r,  include=FALSE}
+# get the data
+# for this to work, the excel sheet needs to be in the folder "excelsheets"
+
+readExcelSheets <- function(filename){
+  # read all sheets in .xlsx 
+  all <- readxl::excel_sheets(filename)
+  # import each sheet into a list using readxl::read_excel
+  list <- lapply(all, function(x) readxl::read_excel(filename, sheet = x))
+  # save sheet name for each sheet (list)
+  names(list) <- all
+  # breaks up list and creates a dataframe for each sheet with df names matching sheet names
+  list2env(list, envir = .GlobalEnv)
+}
+
+
+filename <- "C:/Users/celine/Documents/Private_Unterlagen/R_ladies/R_ladies_CVs/career_center_CV_german/Example_CV_career_center/excel_sheets/career_center_example_data.xlsx"
+readExcelSheets(filename)
+```
+
+
+# Persönliche Informationen
+
+ * Geburtsdatum: 14. Oktober 1998
+ * Nationalität: Schweizerin
+
+# Ausbildung
+
+```{r}
+education %>% 
+  detailed_entries(what = degree,
+                   when = glue::glue('{start_date} - {end_date}'),
+                   with = institution,
+                   where = where,
+                   why = details)
+```
+
+# Berufserfahrung
+
+```{r}
+industry %>% 
+  detailed_entries(what = role,
+                   when = glue::glue('{start_date} - {end_date}'),
+                   with = institution,
+                   where = where,
+                   why = details)
+```
+
+# Weitere Erfahrung und Engagement
+```{r}
+further_engagement %>% 
+  detailed_entries(what = role,
+                   when = glue::glue('{start_date} - {end_date}'),
+                   with = institution,
+                   where = where,
+                   why = details)
+```
+# Kenntnisse
+
+## Sprachen
+```{r}
+language_skills <- kable(data.frame(language_skills),  booktabs=TRUE)
+language_skills 
+
+#language_skills %>% 
+#  brief_entries(when = level, what = glue::glue('{skill} : {details}') )
+
+  #brief_entries(what = glue::glue('{skill} : {level}'))
+
+
+```
+
+
+## Software
+```{r}
+#IT_skills %>% 
+#  brief_entries(when = software, what = main_packages_used)
+
+software_skills <- kable(data.frame(IT_skills), format="latex", booktabs=TRUE)
+software_skills      
+#glue::glue('{skill} : {level} , vertraut mit: {main_packages_used}'
+```
+
+
+# Interessen
+Programmieren in R, Kochen (Südostasiatisch), Lesen (Moderne englische Literatur, Tageszeitungen), Tanzen (Salsa, Flamenco)
+
+# Referenzen
+Werden auf Wunsch gerne bekannt gegeben.
